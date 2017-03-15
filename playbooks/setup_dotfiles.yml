@@ -1,0 +1,10 @@
+- name: Setup dotfiles 
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    #- name: Clone dotfiles git repo
+    #  git: repo=https://github.com/EricFortin/dotfiles.git dest=${HOME}/dev/dotfiles update=no
+
+    - name: Create links in home
+      shell: ${HOME}/dev/dotfiles/setup.sh
