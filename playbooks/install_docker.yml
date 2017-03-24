@@ -1,0 +1,29 @@
+- name: Install docker
+  hosts: 127.0.0.1
+  connection: local
+
+
+  tasks:
+    - name: Create docker group
+      group: name=docker
+      become: True
+
+    - name: Add local user to group
+      user: name=eric groups=docker append=True
+      become: True
+
+    - name: Add docker gpg key to apt.
+      apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+      become: True
+
+    - name: Add docker apt repo
+      apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+      become: True
+
+    - name: Install docker
+      apt: name=docker-ce update_cache=yes
+      become: True
+
+    - name: Enable docker service
+      service: name=docker enabled=True
+      become: True
