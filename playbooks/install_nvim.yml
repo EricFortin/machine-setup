@@ -1,0 +1,27 @@
+- name: Install nvim
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    - name: Add nvim apt repo
+      apt_repository: repo='ppa:neovim-ppa/stable'
+      become: True
+
+    - name: Install nvim
+      apt: name=neovim update_cache=yes
+      become: True
+
+    #- name: Setup vim config
+
+    - name: Setup alternatives
+      command: update-alternatives {{ item }}
+      become: True
+      with_items:
+        - --install /usr/bin/vi vi /usr/bin/nvim 60
+        - --config vi
+        - --install /usr/bin/vim vim /usr/bin/nvim 60
+        - --config vim
+        - --install /usr/bin/editor editor /usr/bin/nvim 60
+        - --config editor
+
+        

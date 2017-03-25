@@ -1,0 +1,18 @@
+- name: Install VisualStudio code
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    - name: Add Microsoft gpg key to apt.
+      command:  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg
+      become: True
+
+    - name: Add VSCode apt repo
+      apt_repository: repo='deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
+      become: True
+
+    - name: Install docker
+      apt: name=code update_cache=yes
+      become: True
+
+        
