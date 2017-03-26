@@ -17,11 +17,11 @@
       become: True
 
     - name: Add docker apt repo
-      apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+      apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable' update_cache=yes
       become: True
 
     - name: Install docker
-      apt: name=docker-ce update_cache=yes
+      apt: name=docker-ce
       become: True
 
     - name: Enable docker service

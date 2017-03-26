@@ -3,16 +3,23 @@
   connection: local
 
   tasks:
-    - name: Add Microsoft gpg key to apt.
-      command:  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg
+    - name: Download Microsoft key
+      get_url: url=https://packages.microsoft.com/keys/microsoft.asc dest=/tmp/microsoft.asc
+
+    - name: Dearmor key
+      command: gpg -o /tmp/microsoft.gpg --dearmor /tmp/microsoft.asc
+      become: True
+
+    - name: Add microsoft key in apt
+      apt_key: file=/tmp/microsoft.gpg
       become: True
 
     - name: Add VSCode apt repo
-      apt_repository: repo='deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
+      apt_repository: repo='deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main' update_cache=yes
       become: True
 
-    - name: Install docker
-      apt: name=code update_cache=yes
+    - name: Install VS Code
+      apt: name=code
       become: True
 
         

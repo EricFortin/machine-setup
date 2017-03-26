@@ -4,7 +4,7 @@
 
   tasks:
     - name: Clone dotfiles git repo
-      git: repo=https://github.com/EricFortin/dotfiles.git dest=${HOME}/dev/dotfiles update=no
+      git: repo=https://github.com/EricFortin/dotfiles.git dest=/home/eric/dev/dotfiles update=no
 
     - name: Create links in home
-      shell: ${HOME}/dev/dotfiles/setup.sh
+      shell: /home/eric/dev/dotfiles/setup.sh
