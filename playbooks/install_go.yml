@@ -2,7 +2,36 @@
   hosts: 127.0.0.1
   connection: local
 
+  vars:
+    - go_version_target: 1.8
+    - go_tarball: go{{ go_version_target }}.linux-amd64.tar.gz
+
   tasks:
-    - name: 
+    - name: Download the Go tarball
+      get_url:
+        url: "https://storage.googleapis.com/golang/{{ go_tarball }}"
+        dest: /usr/local/src/{{ go_tarball }}
+      become: True
+
+    - name: Register the current Go version (if any)
+      command: /usr/local/go/bin/go version
+      ignore_errors: yes
+      register: go_version
+      changed_when: false
+
+    - name: Remove old installation of Go
+      file:
+        path: /usr/local/go
+        state: absent
+      when: go_version|failed or go_version.stdout != go_version_target
+      become: True
+
+    - name: Extract the Go tarball if Go is not yet installed or not the desired version
+      unarchive:
+        src: /usr/local/src/{{ go_tarball }}
+        dest: /usr/local
+        copy: no
+      when: go_version|failed or go_version.stdout != go_version_target
+      become: True
 
         
