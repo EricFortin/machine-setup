@@ -22,4 +22,9 @@
       apt: name=code
       become: True
 
-        
+    - name: Install vscode extensions
+      command: "{{ item }}"
+      with_items:
+        - code --install-extension donjayamanne.python
+        - code --install-extension lukehoban.Go
+        - code --install-extension PeterJausovec.vscode-docker
