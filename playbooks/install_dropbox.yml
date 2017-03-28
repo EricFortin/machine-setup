@@ -1,0 +1,16 @@
+- name: Install dropbox
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    - name: Add Dropbox key
+      apt_key: keyserver=pgp.mit.edu id=1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+      become: yes
+
+    - name: Add Dropbox repo
+      apt_repository: repo="deb http://linux.dropbox.com/ubuntu xenial main" update_cache=yes
+      become: yes
+
+    - name: Install Dropbox
+      apt: pkg=dropbox
+      become: yes
