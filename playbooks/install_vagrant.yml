@@ -1,0 +1,19 @@
+- name: Install Vagrant
+  hosts: 127.0.0.1
+  connection: local
+
+  vars:
+    - VAGRANT_VERSION: 1.9.3
+
+  tasks:
+    - name: Download Vagrant package
+      get_url: url=https://releases.hashicorp.com/vagrant/{{ VAGRANT_VERSION }}/vagrant_{{ VAGRANT_VERSION }}_x86_64.deb dest=/tmp/vagrant.deb
+
+    - name: Install Vagrant
+      apt: deb=/tmp/vagrant.deb
+      become: True
+
+    - name: Install Vagrant extensions
+      command: "{{ item }}"
+      with_items:
+        - vagrant plugin install vagrant-vbguest
