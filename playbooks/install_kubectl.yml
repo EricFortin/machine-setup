@@ -1,0 +1,18 @@
+- name: Install KubeCtl
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    - name: Get stable version
+      command: curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
+      register: stable_version
+
+    - name: Download KubeCtl binary
+      command: curl -LO https://storage.googleapis.com/kubernetes-release/release/{{ stable_version.stdout }}/bin/linux/amd64/kubectl
+            
+    - name: Make executable
+      file: path=./kubectl mode=0775
+
+    - name: Move on path
+      command: mv ./kubectl /usr/local/bin/kubectl
+      become: True

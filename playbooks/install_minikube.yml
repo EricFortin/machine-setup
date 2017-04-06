@@ -1,0 +1,11 @@
+- name: Install MiniKube
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    - name: Download MiniKube binary
+      get_url: 
+        url: https://storage.googleapis.com/minikube/releases/v0.17.1/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: 0775
+      become: True
