@@ -40,5 +40,6 @@
       with_items:
         - go get github.com/golang/lint/golint
         - go get github.com/rogpeppe/godef
+        - go get github.com/derekparker/delve/cmd/dlv
 
         
